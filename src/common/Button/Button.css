@@ -1,0 +1,9 @@
+.login {
+	width: 130px;
+	height: 35px;
+	background-color: #ffd7c7;
+	border: 1px solid #f3a18c;
+	border-radius: 3px;
+	font-size: 15px;
+	cursor: pointer;
+}

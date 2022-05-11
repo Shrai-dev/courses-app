@@ -1,0 +1,35 @@
+.card__container {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	height: 250px;
+	display: flex;
+	justify-content: space-between;
+	background-color: #ebfdfc;
+	border: 1px solid #78fff6;
+}
+
+.card__content {
+	width: 65%;
+}
+
+.card__title {
+	font-size: 34px;
+	padding: 10px;
+}
+
+.card__description {
+	padding: 10px;
+}
+
+.card__details {
+	width: 35%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.card__info {
+	padding: 5px;
+	font-size: 18px;
+}

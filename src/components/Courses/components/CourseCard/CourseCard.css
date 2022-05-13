@@ -23,7 +23,7 @@
 }
 
 .card__details {
-	width: 35%;
+	width: 30%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -32,4 +32,10 @@
 .card__info {
 	padding: 5px;
 	font-size: 18px;
+}
+
+.card__author {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }

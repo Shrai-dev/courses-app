@@ -14,7 +14,7 @@ function CourseCard(props) {
 				<p className='card__description'>{props.description}</p>
 			</div>
 			<div className='card__details'>
-				<p className='card__info'>
+				<p className='card__info card__author'>
 					<strong>Authors: </strong> {props.author}
 				</p>
 				<p className='card__info'>

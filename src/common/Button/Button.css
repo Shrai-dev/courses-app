@@ -1,9 +1,48 @@
+button:hover {
+	transform: scale(1.05);
+}
+
 .login {
-	width: 130px;
+	width: 110px;
 	height: 35px;
 	background-color: #ffd7c7;
 	border: 1px solid #f3a18c;
-	border-radius: 3px;
+	border-radius: 5px;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.showCourse {
+	width: 180px;
+	height: 35px;
+	margin-top: 20px;
+	background-color: #dfc7ff;
+	border: 1px solid #b08cf3;
+	border-radius: 5px;
+	font-size: 15px;
+	cursor: pointer;
+	align-self: center;
+}
+
+.search {
+	width: 150px;
+	height: 35px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: #feffc7;
+	border: 1px solid #f3f18c;
+	border-radius: 5px;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.newCourse {
+	width: 180px;
+	height: 35px;
+	margin: 10px 10px 10px 0;
+	background-color: #c7d1ff;
+	border: 1px solid #8c9ff3;
+	border-radius: 5px;
 	font-size: 15px;
 	cursor: pointer;
 }

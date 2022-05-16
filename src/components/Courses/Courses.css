@@ -1,0 +1,9 @@
+.courses__wrapper {
+	margin-top: 20px;
+}
+
+.courses__form {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}

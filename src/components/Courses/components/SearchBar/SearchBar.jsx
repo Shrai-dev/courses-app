@@ -7,6 +7,8 @@ function SearchBar(props) {
 	return (
 		<div className='search__wrapper'>
 			<Input
+				className='search-input'
+				type='text'
 				handleChange={props.handleInput}
 				placeholderText='Enter course name...'
 			/>

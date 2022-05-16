@@ -1,3 +1,12 @@
+input,
+label {
+	display: block;
+}
+
+label {
+	font-size: 18px;
+}
+
 .search-input {
 	width: 400px;
 	height: 35px;
@@ -12,4 +21,45 @@
 	padding-left: 5px;
 	border: 1px solid #e28cf3;
 	outline: none;
+}
+
+.course-title {
+	width: 400px;
+	height: 35px;
+	margin-top: 5px;
+	margin-right: 50px;
+	padding-left: 5px;
+	border-radius: 5px;
+	border: 1px solid #8cd6f3;
+	font-size: 15px;
+}
+
+.course-title:focus {
+	padding-left: 5px;
+	border: 1px solid #8cd6f3;
+	outline: none;
+}
+
+.author-input,
+.duration-input {
+	width: 535px;
+	height: 35px;
+	margin-top: 5px;
+	padding-left: 5px;
+	border-radius: 5px;
+	border: 1px solid #f3cf8c;
+	font-size: 15px;
+}
+
+.author-input:focus,
+.duration-input:focus {
+	padding-left: 5px;
+	border: 1px solid #f3cf8c;
+	outline: none;
+}
+
+.duration-input::-webkit-outer-spin-button,
+.duration-input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }

@@ -1,48 +1,65 @@
+button {
+	height: 35px;
+	border-radius: 5px;
+	font-size: 15px;
+	cursor: pointer;
+}
+
 button:hover {
 	transform: scale(1.05);
 }
 
 .login {
 	width: 110px;
-	height: 35px;
 	background-color: #ffd7c7;
 	border: 1px solid #f3a18c;
-	border-radius: 5px;
-	font-size: 15px;
-	cursor: pointer;
 }
 
 .showCourse {
 	width: 180px;
-	height: 35px;
 	margin-top: 20px;
 	background-color: #dfc7ff;
 	border: 1px solid #b08cf3;
-	border-radius: 5px;
-	font-size: 15px;
-	cursor: pointer;
 	align-self: center;
 }
 
 .search {
 	width: 150px;
-	height: 35px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	background-color: #feffc7;
 	border: 1px solid #f3f18c;
-	border-radius: 5px;
-	font-size: 15px;
-	cursor: pointer;
 }
 
 .newCourse {
 	width: 180px;
-	height: 35px;
 	margin: 10px 10px 10px 0;
 	background-color: #c7d1ff;
 	border: 1px solid #8c9ff3;
-	border-radius: 5px;
-	font-size: 15px;
-	cursor: pointer;
+}
+
+.createCourse {
+	width: 180px;
+	margin-top: 22px;
+	background-color: #ffc7e3;
+	border: 1px solid #f38cc5;
+}
+
+.createAuthor {
+	width: 180px;
+	margin-top: 22px;
+	background-color: #c7dbff;
+	border: 1px solid #8cadf3;
+}
+
+.addAuthor {
+	width: 180px;
+	background-color: #ffebc7;
+	border: 1px solid #f3c68c;
+}
+
+.deleteAuthor {
+	width: 180px;
+	background-color: #ffc7c7;
+	border: 1px solid #f38c8c;
 }

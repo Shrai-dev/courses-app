@@ -6,7 +6,7 @@ import { mockedCoursesList, mockedAuthorsList } from '../../constants';
 import SearchBar from './components/SearchBar/SearchBar';
 import Button from '../../common/Button/Button';
 
-function Courses() {
+function Courses(props) {
 	const [items, setItems] = useState(mockedCoursesList);
 	const [inputValue, setInputValue] = useState('');
 
@@ -57,7 +57,11 @@ function Courses() {
 					doSearch={() => handleSearch(inputValue)}
 					handleInput={getInputValue}
 				/>
-				<Button className='newCourse' buttonText='Add new course' />
+				<Button
+					className='newCourse'
+					buttonText='Add new course'
+					handleClick={props.handleClick}
+				/>
 			</div>
 			{coursesElements}
 		</div>

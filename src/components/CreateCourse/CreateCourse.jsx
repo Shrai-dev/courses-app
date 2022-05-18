@@ -10,18 +10,14 @@ function CreateCourse(props) {
 		id: '',
 		name: '',
 	});
-	const [courseAuthors, setCourseAuthors] = useState([]);
 	const [courseAuthorsList, setCourseAuthorsList] = useState([]);
-	const [durationValue, setDurationValue] = useState('');
-	const [titleValue, setTitleValue] = useState('');
-	const [descriptionValue, setDescriptionValue] = useState('');
 	const [course, setCourse] = useState({
 		id: uuidv4(),
-		title: titleValue,
-		description: descriptionValue,
+		title: '',
+		description: '',
 		creationDate: new Date().toLocaleDateString('en-US'),
-		duration: durationValue,
-		authors: courseAuthors,
+		duration: '',
+		authors: [],
 	});
 
 	const createAuthor = (event) => {
@@ -32,7 +28,10 @@ function CreateCourse(props) {
 	const addAuthor = (event) => {
 		event.preventDefault();
 		let author = event.currentTarget.parentNode.firstChild;
-		setCourseAuthors((prev) => [...prev, author.id]);
+		setCourse((prev) => ({
+			...prev,
+			authors: [author.id],
+		}));
 		setCourseAuthorsList((prev) => [
 			...prev,
 			{
@@ -45,7 +44,7 @@ function CreateCourse(props) {
 	const deleteAuthor = (event) => {
 		event.preventDefault();
 		let author = event.currentTarget.parentNode.firstChild;
-		setCourseAuthors(courseAuthors.filter((a) => a.id !== author.id));
+		setCourse(course.author.filter((a) => a.id !== author.id));
 		setCourseAuthorsList(courseAuthorsList.filter((a) => a.id !== author.id));
 	};
 
@@ -60,7 +59,10 @@ function CreateCourse(props) {
 
 	const getDurationValue = (event) => {
 		let data = event.target.value;
-		setDurationValue(data);
+		setCourse((prev) => ({
+			...prev,
+			duration: data,
+		}));
 	};
 
 	const calculateDuration = (value) => {
@@ -77,16 +79,20 @@ function CreateCourse(props) {
 
 	const createCourse = (event) => {
 		event.preventDefault();
-		if (titleValue === '' || descriptionValue === '' || durationValue === '') {
+		if (
+			course.title === '' ||
+			course.description === '' ||
+			course.duration === ''
+		) {
 			alert('Please, fill in all fields');
 		} else {
 			setCourse({
 				id: uuidv4(),
-				title: titleValue,
-				description: descriptionValue,
+				title: '',
+				description: '',
 				creationDate: new Date().toLocaleDateString('en-US'),
-				duration: durationValue,
-				authors: courseAuthors,
+				duration: '',
+				authors: [],
 			});
 			mockedCoursesList.push(course);
 			props.handleClick();
@@ -131,9 +137,11 @@ function CreateCourse(props) {
 					labelText='Title'
 					type='text'
 					placeholderText='Enter title...'
-					handleChange={(event) => setTitleValue(event.target.value)}
+					handleChange={(event) =>
+						setCourse({ ...course, title: event.target.value })
+					}
 					required={true}
-					value={titleValue}
+					value={course.title}
 				/>
 				<Button
 					className='createCourse'
@@ -152,8 +160,10 @@ function CreateCourse(props) {
 					rows='8'
 					minLength='2'
 					required
-					value={descriptionValue}
-					onChange={(event) => setDescriptionValue(event.target.value)}
+					value={course.description}
+					onChange={(event) =>
+						setCourse({ ...course, description: event.target.value })
+					}
 				></textarea>
 			</label>
 			<div className='course__wrapper'>
@@ -167,6 +177,7 @@ function CreateCourse(props) {
 						handleChange={createAuthorName}
 						minLength='2'
 						required={false}
+						value={newAuthor.name}
 					/>
 					<Button
 						className='createAuthor'
@@ -181,17 +192,17 @@ function CreateCourse(props) {
 						placeholderText='Enter duration in minutes...'
 						handleChange={getDurationValue}
 						required={true}
-						value={durationValue}
+						value={course.duration}
 					/>
 					<p className='course__duration'>
-						Duration: {calculateDuration(durationValue)} hours
+						Duration: {calculateDuration(course.duration)} hours
 					</p>
 				</div>
 				<div className='course__authors'>
 					<h3 className='course__title'>Authors</h3>
 					{authorList}
 					<h3 className='course__title'>Course authors</h3>
-					{courseAuthors.length ? (
+					{course.authors.length ? (
 						courseAuthorList
 					) : (
 						<p className='course__author'>Author list is empty</p>

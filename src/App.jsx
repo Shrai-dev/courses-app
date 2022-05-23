@@ -4,27 +4,28 @@ import Courses from './components/Courses/Courses';
 import CreateCourse from './components/CreateCourse/CreateCourse';
 import Header from './components/Header/Header.jsx';
 
-function App() {
-	const [newCourseClicked, setNewCourseClicked] = useState(false);
+const App = () => {
+	const [showCourseForm, setShowCourseForm] = useState(false);
 
-	const handleCreateNewCourse = () => {
-		setNewCourseClicked(false);
+	const createNewCourse = () => {
+		setShowCourseForm(false);
 	};
 
-	const handleAddNewCourse = () => {
-		setNewCourseClicked(true);
+	const addNewCourse = () => {
+		setShowCourseForm(true);
 	};
 
 	return (
 		<div className='wrapper'>
 			<Header />
-			{newCourseClicked ? (
-				<CreateCourse handleClick={handleCreateNewCourse} />
+			{showCourseForm ? (
+				<CreateCourse handleClick={createNewCourse} />
 			) : (
-				<Courses handleClick={handleAddNewCourse} />
+				<Courses handleClick={addNewCourse} />
 			)}
 		</div>
 	);
 }
 
 export default App;
+

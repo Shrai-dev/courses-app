@@ -3,9 +3,9 @@ import './SearchBar.css';
 import Button from '../../../../common/Button/Button';
 import Input from '../../../../common/Input/Input';
 
-function SearchBar(props) {
+const SearchBar = (props) => {
 	return (
-		<div className='search__wrapper'>
+		<form onSubmit={(e) => e.preventDefault()} className='search__wrapper'>
 			<Input
 				className='search-input'
 				type='text'
@@ -17,8 +17,8 @@ function SearchBar(props) {
 				buttonText='Search'
 				handleClick={props.doSearch}
 			/>
-		</div>
+		</form>
 	);
-}
+};
 
 export default SearchBar;

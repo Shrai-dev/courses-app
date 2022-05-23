@@ -1,43 +1,37 @@
 import React, { useState } from 'react';
 import './Courses.css';
 import '../../common/Button/Button.css';
+import getAuthorName from '../../helpers/getAuthorName';
 import CourseCard from './components/CourseCard/CourseCard.jsx';
-import { mockedCoursesList, mockedAuthorsList } from '../../constants';
+import { mockedCoursesList } from '../../constants';
 import SearchBar from './components/SearchBar/SearchBar';
 import Button from '../../common/Button/Button';
 
 function Courses(props) {
-	const [items, setItems] = useState(mockedCoursesList);
-	const [inputValue, setInputValue] = useState('');
+	const [courses, setCourses] = useState(mockedCoursesList);
+	const [searchValue, setSearchValue] = useState('');
 
-	const getInputValue = (event) => {
+	const getSearchValue = (event) => {
+		event.preventDefault();
+		if (event.target.value === '') {
+			setCourses(mockedCoursesList);
+		}
 		let dataLowerCase = event.target.value.toLowerCase();
-		setInputValue(dataLowerCase);
+		setSearchValue(dataLowerCase);
 	};
 
 	const handleSearch = (searchTerm) => {
 		const searchString = new RegExp(searchTerm, 'ig');
-		let searchData = [...mockedCoursesList];
-		const filteredList = searchData.filter((item) => {
+		const filteredList = mockedCoursesList.filter((item) => {
 			if (searchTerm === '') {
 				return item;
 			}
 			return item.id.match(searchString) || item.title.match(searchString);
 		});
-		setItems(filteredList);
+		setCourses(filteredList);
 	};
-	const getAuthorName = (array) => {
-		let authorsArr = [];
-		for (let i = 0; i < mockedAuthorsList.length; i++) {
-			for (let j = 0; j < array.length; j++) {
-				if (array[j] === mockedAuthorsList[i]['id']) {
-					authorsArr.push(mockedAuthorsList[i]['name']);
-				}
-			}
-		}
-		return authorsArr.join(', ');
-	};
-	const coursesElements = items.map((course) => {
+
+	const coursesElements = courses.map((course) => {
 		return (
 			<CourseCard
 				key={course.id}
@@ -54,8 +48,8 @@ function Courses(props) {
 		<div className='courses__wrapper'>
 			<div className='courses__form'>
 				<SearchBar
-					doSearch={() => handleSearch(inputValue)}
-					handleInput={getInputValue}
+					doSearch={() => handleSearch(searchValue)}
+					handleInput={getSearchValue}
 				/>
 				<Button
 					className='newCourse'

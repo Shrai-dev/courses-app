@@ -8,6 +8,8 @@ const SearchBar = (props) => {
 		<form onSubmit={(e) => e.preventDefault()} className='search__wrapper'>
 			<Input
 				className='search-input'
+				name='search'
+				id='search'
 				type='text'
 				handleChange={props.handleInput}
 				placeholderText='Enter course name...'

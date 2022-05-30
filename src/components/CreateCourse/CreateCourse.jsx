@@ -5,7 +5,7 @@ import './CreateCourse.css';
 import { mockedCoursesList, mockedAuthorsList } from '../../constants';
 import { v4 as uuidv4 } from 'uuid';
 
-function CreateCourse(props) {
+const CreateCourse = (props) => {
 	const [newAuthor, setNewAuthor] = useState({
 		id: '',
 		name: '',
@@ -136,6 +136,8 @@ function CreateCourse(props) {
 					className='course-title'
 					labelText='Title'
 					type='text'
+					name='title'
+					id='title'
 					placeholderText='Enter title...'
 					handleChange={(event) =>
 						setCourse({ ...course, title: event.target.value })
@@ -173,6 +175,8 @@ function CreateCourse(props) {
 						className='author-input'
 						labelText='Author name'
 						type='text'
+						name='author'
+						id='author'
 						placeholderText='Enter author name...'
 						handleChange={createAuthorName}
 						minLength='2'
@@ -189,6 +193,8 @@ function CreateCourse(props) {
 						className='duration-input'
 						labelText='Duration'
 						type='number'
+						name='duration'
+						id='duration'
 						placeholderText='Enter duration in minutes...'
 						handleChange={getDurationValue}
 						required={true}
@@ -211,6 +217,6 @@ function CreateCourse(props) {
 			</div>
 		</form>
 	);
-}
+};
 
 export default CreateCourse;

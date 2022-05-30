@@ -1,15 +1,15 @@
 import React from 'react';
 import './Input.css';
 
-function Input(props) {
+const Input = (props) => {
 	return (
 		<label htmlFor='searchInput'>
 			{props.labelText}
 			<input
 				className={props.className}
 				type={props.type}
-				name='search'
-				id='searchInput'
+				name={props.name}
+				id={props.id}
 				placeholder={props.placeholderText}
 				onChange={props.handleChange}
 				minLength={props.minLength}
@@ -18,6 +18,6 @@ function Input(props) {
 			/>
 		</label>
 	);
-}
+};
 
 export default Input;

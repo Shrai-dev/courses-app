@@ -2,11 +2,9 @@ import React from 'react';
 import Button from '../../../../common/Button/Button';
 import '../../../../common/Button/Button.css';
 import './CourseCard.css';
+import calculateDuration from '../../../../helpers/calculateDuration';
 
-function CourseCard(props) {
-	let hours = Math.floor(props.duration / 60);
-	let minutes = props.duration % 60;
-
+const CourseCard = (props) => {
 	return (
 		<div className='card__container'>
 			<div className='card__content'>
@@ -19,7 +17,7 @@ function CourseCard(props) {
 				</p>
 				<p className='card__info'>
 					<strong>Duration: </strong>
-					{hours}:{minutes} hours
+					{calculateDuration(props.duration)} hours
 				</p>
 				<p className='card__info'>
 					<strong>Created: </strong>
@@ -29,6 +27,6 @@ function CourseCard(props) {
 			</div>
 		</div>
 	);
-}
+};
 
 export default CourseCard;

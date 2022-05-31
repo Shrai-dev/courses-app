@@ -3,6 +3,7 @@ import Button from '../../../../common/Button/Button';
 import '../../../../common/Button/Button.css';
 import './CourseCard.css';
 import calculateDuration from '../../../../helpers/calculateDuration';
+import formatDate from '../../../../helpers/formatDate';
 
 const CourseCard = (props) => {
 	return (
@@ -21,7 +22,7 @@ const CourseCard = (props) => {
 				</p>
 				<p className='card__info'>
 					<strong>Created: </strong>
-					{props.creationDate}
+					{formatDate(props.creationDate)}
 				</p>
 				<Button className='showCourse' buttonText='Show course' />
 			</div>

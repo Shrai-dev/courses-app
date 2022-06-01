@@ -17,6 +17,7 @@ const SearchBar = (props) => {
 			<Button
 				className='search'
 				buttonText='Search'
+				type='submit'
 				handleClick={props.doSearch}
 			/>
 		</form>

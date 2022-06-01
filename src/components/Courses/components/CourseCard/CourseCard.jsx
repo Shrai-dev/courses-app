@@ -24,7 +24,7 @@ const CourseCard = (props) => {
 					<strong>Created: </strong>
 					{formatDate(props.creationDate)}
 				</p>
-				<Button className='showCourse' buttonText='Show course' />
+				<Button className='showCourse' buttonText='Show course' type='button' />
 			</div>
 		</div>
 	);

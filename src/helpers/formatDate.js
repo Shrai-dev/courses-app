@@ -1,5 +1,5 @@
 const formatDate = (date) => {
-	let [day, month, year] = date.split('/');
+	let [month, day, year] = date.split('/');
 	if (day.length === 1) {
 		day = `0${day}`;
 	}

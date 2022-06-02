@@ -3,7 +3,7 @@ import './Header.css';
 import Logo from './components/Logo/Logo.jsx';
 import Button from '../../common/Button/Button';
 
-function Header() {
+const Header = () => {
 	return (
 		<header className='header'>
 			<Logo />
@@ -13,6 +13,6 @@ function Header() {
 			</div>
 		</header>
 	);
-}
+};
 
 export default Header;

@@ -7,7 +7,7 @@ import { mockedCoursesList } from '../../constants';
 import SearchBar from './components/SearchBar/SearchBar';
 import Button from '../../common/Button/Button';
 
-function Courses(props) {
+const Courses = (props) => {
 	const [courses, setCourses] = useState(mockedCoursesList);
 	const [searchValue, setSearchValue] = useState('');
 
@@ -60,6 +60,6 @@ function Courses(props) {
 			{coursesElements}
 		</div>
 	);
-}
+};
 
 export default Courses;

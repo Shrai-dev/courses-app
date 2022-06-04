@@ -7,67 +7,65 @@ import { mockedCoursesList, mockedAuthorsList } from '../../constants';
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateCourse = (props) => {
-	const [newAuthor, setNewAuthor] = useState({
+	const [newCourseAuthor, setNewCourseAuthor] = useState({
 		id: '',
 		name: '',
 	});
+	const [titleValue, setTitleValue] = useState('');
+	const [descriptionValue, setDescriptionValue] = useState('');
+	const [durationValue, setDurationValue] = useState('');
+	const [authors, setAuthors] = useState([...mockedAuthorsList]);
 	const [courseAuthorsList, setCourseAuthorsList] = useState([]);
-	const [course, setCourse] = useState({
-		id: uuidv4(),
-		title: '',
-		description: '',
-		creationDate: new Date().toLocaleDateString('en-US'),
-		duration: '',
-		authors: [],
-	});
+	const [courseAuthorsIds, setCourseAuthorsIds] = useState([]);
 
-	const createAuthor = (event) => {
-		event.preventDefault();
-		mockedAuthorsList.push(newAuthor);
+	const course = {
+		id: uuidv4(),
+		title: titleValue,
+		description: descriptionValue,
+		creationDate: new Date().toLocaleDateString('en-US'),
+		duration: durationValue,
+		authors: courseAuthorsIds,
 	};
 
-	const addAuthor = (event) => {
+	const handleSubmit = (event) => {
 		event.preventDefault();
-		let author = event.currentTarget.parentNode.firstChild;
-		setCourse((prev) => ({
-			...prev,
-			authors: [author.id],
-		}));
+	};
+
+	const createAuthor = () => {
+		setAuthors((prev) => [...prev, newCourseAuthor]);
+		mockedAuthorsList.push(newCourseAuthor);
+	};
+
+	const findAuthorName = (id) => {
+		const author = mockedAuthorsList.filter((elem) => elem.id === id);
+		return author[0].name;
+	};
+
+	const addAuthor = (id) => {
 		setCourseAuthorsList((prev) => [
 			...prev,
 			{
-				id: author.id,
-				name: author.innerText,
+				id: id,
+				name: findAuthorName(id),
 			},
 		]);
+		setCourseAuthorsIds((prev) => [...prev, id]);
+		setAuthors(authors.filter((a) => a.id !== id));
 	};
 
-	const deleteAuthor = (event) => {
-		event.preventDefault();
-		let author = event.currentTarget.parentNode.firstChild;
-		setCourse(course.author.filter((a) => a.id !== author.id));
-		setCourseAuthorsList(courseAuthorsList.filter((a) => a.id !== author.id));
-	};
-
-	const createAuthorName = (event) => {
-		let name = event.target.value;
-		setNewAuthor((prev) => ({
+	const deleteAuthor = (id) => {
+		setAuthors((prev) => [
 			...prev,
-			id: uuidv4(),
-			name: name,
-		}));
+			{
+				id: id,
+				name: findAuthorName(id),
+			},
+		]);
+		setCourseAuthorsList(courseAuthorsList.filter((a) => a.id !== id));
+		setCourseAuthorsIds(courseAuthorsIds.filter((elem) => elem !== id));
 	};
 
-	const getDurationValue = (event) => {
-		let data = event.target.value;
-		setCourse((prev) => ({
-			...prev,
-			duration: data,
-		}));
-	};
-
-	const createCourse = (event) => {
-		event.preventDefault();
+	const createCourse = () => {
 		if (
 			course.title === '' ||
 			course.description === '' ||
@@ -75,14 +73,6 @@ const CreateCourse = (props) => {
 		) {
 			alert('Please, fill in all fields');
 		} else {
-			setCourse({
-				id: uuidv4(),
-				title: '',
-				description: '',
-				creationDate: new Date().toLocaleDateString('en-US'),
-				duration: '',
-				authors: [],
-			});
 			mockedCoursesList.push(course);
 			props.handleClick();
 		}
@@ -97,13 +87,14 @@ const CreateCourse = (props) => {
 				<Button
 					className='deleteAuthor'
 					buttonText='Delete author'
-					handleClick={deleteAuthor}
+					type='button'
+					handleClick={() => deleteAuthor(elem.id)}
 				/>
 			</div>
 		);
 	});
 
-	const authorList = mockedAuthorsList.map((elem) => {
+	const authorList = authors.map((elem) => {
 		return (
 			<div className='author-item' key={'author' + elem.id}>
 				<p className='author-name' id={elem.id}>
@@ -112,14 +103,15 @@ const CreateCourse = (props) => {
 				<Button
 					className='addAuthor'
 					buttonText='Add author'
-					handleClick={addAuthor}
+					type='button'
+					handleClick={() => addAuthor(elem.id)}
 				/>
 			</div>
 		);
 	});
 
 	return (
-		<form className='course__container'>
+		<form className='course__container' onSubmit={handleSubmit}>
 			<div className='course__inner'>
 				<Input
 					className='course-title'
@@ -128,15 +120,14 @@ const CreateCourse = (props) => {
 					name='title'
 					id='title'
 					placeholderText='Enter title...'
-					handleChange={(event) =>
-						setCourse({ ...course, title: event.target.value })
-					}
+					handleChange={(event) => setTitleValue(event.target.value)}
 					required={true}
-					value={course.title}
+					value={titleValue}
 				/>
 				<Button
 					className='createCourse'
 					buttonText='Create course'
+					type='submit'
 					handleClick={createCourse}
 				/>
 			</div>
@@ -151,10 +142,8 @@ const CreateCourse = (props) => {
 					rows='8'
 					minLength='2'
 					required
-					value={course.description}
-					onChange={(event) =>
-						setCourse({ ...course, description: event.target.value })
-					}
+					value={descriptionValue}
+					onChange={(event) => setDescriptionValue(event.target.value)}
 				></textarea>
 			</label>
 			<div className='course__wrapper'>
@@ -167,14 +156,21 @@ const CreateCourse = (props) => {
 						name='author'
 						id='author'
 						placeholderText='Enter author name...'
-						handleChange={createAuthorName}
+						handleChange={(event) =>
+							setNewCourseAuthor((prev) => ({
+								...prev,
+								id: uuidv4(),
+								name: event.target.value,
+							}))
+						}
 						minLength='2'
 						required={false}
-						value={newAuthor.name}
+						value={newCourseAuthor.name}
 					/>
 					<Button
 						className='createAuthor'
 						buttonText='Create author'
+						type='button'
 						handleClick={createAuthor}
 					/>
 					<h3 className='course__title'>Duration</h3>
@@ -185,19 +181,23 @@ const CreateCourse = (props) => {
 						name='duration'
 						id='duration'
 						placeholderText='Enter duration in minutes...'
-						handleChange={getDurationValue}
+						handleChange={(event) => setDurationValue(event.target.value)}
 						required={true}
-						value={course.duration}
+						value={durationValue}
 					/>
 					<p className='course__duration'>
-						Duration: {calculateDuration(course.duration)} hours
+						Duration: {calculateDuration(durationValue)} hours
 					</p>
 				</div>
 				<div className='course__authors'>
 					<h3 className='course__title'>Authors</h3>
-					{authorList}
+					{authors.length ? (
+						authorList
+					) : (
+						<p className='course__author'>Author list is empty</p>
+					)}
 					<h3 className='course__title'>Course authors</h3>
-					{course.authors.length ? (
+					{courseAuthorsList.length ? (
 						courseAuthorList
 					) : (
 						<p className='course__author'>Author list is empty</p>

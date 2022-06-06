@@ -69,3 +69,9 @@
 .author-name {
 	width: 250px;
 }
+
+.form__error {
+	color: #ff0000;
+	font-size: 16px;
+	align-self: self-start;
+}

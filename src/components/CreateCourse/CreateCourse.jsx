@@ -1,39 +1,64 @@
 import React, { useState } from 'react';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
+import useForm from '../../hooks/useForm';
 import './CreateCourse.css';
 import calculateDuration from '../../helpers/calculateDuration';
 import { mockedCoursesList, mockedAuthorsList } from '../../constants';
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateCourse = (props) => {
+	const { handleSubmit, handleChange, data, errors } = useForm({
+		validations: {
+			title: {
+				required: {
+					value: true,
+					message: 'The title is required',
+				},
+			},
+			description: {
+				custom: {
+					isValid: (value) => {
+						if (!value) return false;
+						return value.length < 2 ? false : true;
+					},
+					message: 'The description needs to be at least 2 characters long',
+				},
+			},
+			duration: {
+				custom: {
+					isValid: (value) => parseInt(value, 10) > 0,
+					message: 'The duration needs to be more than 0',
+				},
+			},
+		},
+		onSubmit: () => createCourse(),
+	});
+
 	const [newCourseAuthor, setNewCourseAuthor] = useState({
 		id: '',
 		name: '',
 	});
-	const [titleValue, setTitleValue] = useState('');
-	const [descriptionValue, setDescriptionValue] = useState('');
-	const [durationValue, setDurationValue] = useState('');
 	const [authors, setAuthors] = useState([...mockedAuthorsList]);
 	const [courseAuthorsList, setCourseAuthorsList] = useState([]);
 	const [courseAuthorsIds, setCourseAuthorsIds] = useState([]);
 
 	const course = {
 		id: uuidv4(),
-		title: titleValue,
-		description: descriptionValue,
+		title: data.title,
+		description: data.description,
 		creationDate: new Date().toLocaleDateString('en-US'),
-		duration: durationValue,
+		duration: data.duration,
 		authors: courseAuthorsIds,
 	};
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
-	};
-
 	const createAuthor = () => {
-		setAuthors((prev) => [...prev, newCourseAuthor]);
-		mockedAuthorsList.push(newCourseAuthor);
+		if (newCourseAuthor.name.length < 2) {
+			alert('The author name needs to be at least 2 characters long');
+		} else {
+			setAuthors((prev) => [...prev, newCourseAuthor]);
+			mockedAuthorsList.push(newCourseAuthor);
+		}
 	};
 
 	const findAuthorName = (id) => {
@@ -66,16 +91,8 @@ const CreateCourse = (props) => {
 	};
 
 	const createCourse = () => {
-		if (
-			course.title === '' ||
-			course.description === '' ||
-			course.duration === ''
-		) {
-			alert('Please, fill in all fields');
-		} else {
-			mockedCoursesList.push(course);
-			props.handleClick();
-		}
+		mockedCoursesList.push(course);
+		props.handleClick();
 	};
 
 	const courseAuthorList = courseAuthorsList.map((elem) => {
@@ -111,40 +128,47 @@ const CreateCourse = (props) => {
 	});
 
 	return (
-		<form className='course__container' onSubmit={handleSubmit}>
+		<form className='course__container'>
 			<div className='course__inner'>
-				<Input
-					className='course-title'
-					labelText='Title'
-					type='text'
-					name='title'
-					id='title'
-					placeholderText='Enter title...'
-					handleChange={(event) => setTitleValue(event.target.value)}
-					required={true}
-					value={titleValue}
-				/>
+				<div className='course__inner-title'>
+					<Input
+						className='course-title'
+						labelText='Title'
+						type='text'
+						name='title'
+						id='title'
+						placeholderText='Enter title...'
+						handleChange={handleChange('title')}
+						required={true}
+						value={data.title || ''}
+						htmlFor='title'
+					/>
+					{errors.title && <p className='form__error'>{errors.title}</p>}
+				</div>
 				<Button
 					className='createCourse'
 					buttonText='Create course'
 					type='submit'
-					handleClick={createCourse}
+					handleClick={handleSubmit}
 				/>
 			</div>
 			<label className='course__description-label' htmlFor='description'>
 				Description
 				<textarea
 					className='course__description'
-					name='Description'
+					name='description'
 					id='description'
 					placeholder='Enter description'
 					cols='30'
 					rows='8'
 					minLength='2'
 					required
-					value={descriptionValue}
-					onChange={(event) => setDescriptionValue(event.target.value)}
+					value={data.description}
+					onChange={handleChange('description')}
 				></textarea>
+				{errors.description && (
+					<p className='form__error'>{errors.description}</p>
+				)}
 			</label>
 			<div className='course__wrapper'>
 				<div className='course__info'>
@@ -166,7 +190,9 @@ const CreateCourse = (props) => {
 						minLength='2'
 						required={false}
 						value={newCourseAuthor.name}
+						htmlFor='author'
 					/>
+					{errors.author && <p className='form__error'>{errors.author}</p>}
 					<Button
 						className='createAuthor'
 						buttonText='Create author'
@@ -181,12 +207,14 @@ const CreateCourse = (props) => {
 						name='duration'
 						id='duration'
 						placeholderText='Enter duration in minutes...'
-						handleChange={(event) => setDurationValue(event.target.value)}
+						handleChange={handleChange('duration')}
 						required={true}
-						value={durationValue}
+						value={data.duration || ''}
+						htmlFor='duration'
 					/>
+					{errors.duration && <p className='form__error'>{errors.duration}</p>}
 					<p className='course__duration'>
-						Duration: {calculateDuration(durationValue)} hours
+						Duration: {calculateDuration(data.duration)} hours
 					</p>
 				</div>
 				<div className='course__authors'>

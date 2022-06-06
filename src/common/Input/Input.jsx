@@ -3,7 +3,7 @@ import './Input.css';
 
 const Input = (props) => {
 	return (
-		<label htmlFor='searchInput'>
+		<label htmlFor={props.id}>
 			{props.labelText}
 			<input
 				className={props.className}

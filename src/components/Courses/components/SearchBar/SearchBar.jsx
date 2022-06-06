@@ -13,6 +13,7 @@ const SearchBar = (props) => {
 				type='text'
 				handleChange={props.handleInput}
 				placeholderText='Enter course name...'
+				htmlFor='search'
 			/>
 			<Button
 				className='search'

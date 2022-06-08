@@ -4,36 +4,16 @@ import Input from '../../common/Input/Input';
 import useForm from '../../hooks/useForm';
 import './CreateCourse.css';
 import calculateDuration from '../../helpers/calculateDuration';
+import { validationRules } from '../../helpers/validationRules';
 import { mockedCoursesList, mockedAuthorsList } from '../../constants';
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateCourse = (props) => {
-	const { handleSubmit, handleChange, data, errors } = useForm({
-		validations: {
-			title: {
-				required: {
-					value: true,
-					message: 'The title is required',
-				},
-			},
-			description: {
-				custom: {
-					isValid: (value) => {
-						if (!value) return false;
-						return value.length < 2 ? false : true;
-					},
-					message: 'The description needs to be at least 2 characters long',
-				},
-			},
-			duration: {
-				custom: {
-					isValid: (value) => parseInt(value, 10) > 0,
-					message: 'The duration needs to be more than 0',
-				},
-			},
-		},
-		onSubmit: () => createCourse(),
-	});
+	const { handleSubmit, handleChange, handleBlur, data, errors, touched } =
+		useForm({
+			validations: validationRules,
+			onSubmit: () => createCourse(),
+		});
 
 	const [newCourseAuthor, setNewCourseAuthor] = useState({
 		id: '',
@@ -41,7 +21,6 @@ const CreateCourse = (props) => {
 	});
 	const [authors, setAuthors] = useState([...mockedAuthorsList]);
 	const [courseAuthorsList, setCourseAuthorsList] = useState([]);
-	const [courseAuthorsIds, setCourseAuthorsIds] = useState([]);
 
 	const course = {
 		id: uuidv4(),
@@ -49,7 +28,7 @@ const CreateCourse = (props) => {
 		description: data.description,
 		creationDate: new Date().toLocaleDateString('en-US'),
 		duration: data.duration,
-		authors: courseAuthorsIds,
+		authors: [],
 	};
 
 	const createAuthor = () => {
@@ -74,7 +53,6 @@ const CreateCourse = (props) => {
 				name: findAuthorName(id),
 			},
 		]);
-		setCourseAuthorsIds((prev) => [...prev, id]);
 		setAuthors(authors.filter((a) => a.id !== id));
 	};
 
@@ -87,12 +65,16 @@ const CreateCourse = (props) => {
 			},
 		]);
 		setCourseAuthorsList(courseAuthorsList.filter((a) => a.id !== id));
-		setCourseAuthorsIds(courseAuthorsIds.filter((elem) => elem !== id));
 	};
 
 	const createCourse = () => {
-		mockedCoursesList.push(course);
-		props.handleClick();
+		if (!course.title || !course.description || !course.duration) {
+			alert('Please, fill in all fields');
+		} else {
+			course.authors = courseAuthorsList.map((elem) => elem.id);
+			mockedCoursesList.push(course);
+			props.handleClick();
+		}
 	};
 
 	const courseAuthorList = courseAuthorsList.map((elem) => {
@@ -142,8 +124,11 @@ const CreateCourse = (props) => {
 						required={true}
 						value={data.title || ''}
 						htmlFor='title'
+						handleBlur={handleBlur('title')}
 					/>
-					{errors.title && <p className='form__error'>{errors.title}</p>}
+					{errors.title && touched.title && (
+						<p className='form__error'>{errors.title}</p>
+					)}
 				</div>
 				<Button
 					className='createCourse'
@@ -165,8 +150,9 @@ const CreateCourse = (props) => {
 					required
 					value={data.description}
 					onChange={handleChange('description')}
+					onBlur={handleBlur('description')}
 				></textarea>
-				{errors.description && (
+				{errors.description && touched.description && (
 					<p className='form__error'>{errors.description}</p>
 				)}
 			</label>
@@ -191,8 +177,8 @@ const CreateCourse = (props) => {
 						required={false}
 						value={newCourseAuthor.name}
 						htmlFor='author'
+						handleBlur={handleBlur('author')}
 					/>
-					{errors.author && <p className='form__error'>{errors.author}</p>}
 					<Button
 						className='createAuthor'
 						buttonText='Create author'
@@ -211,8 +197,11 @@ const CreateCourse = (props) => {
 						required={true}
 						value={data.duration || ''}
 						htmlFor='duration'
+						handleBlur={handleBlur('duration')}
 					/>
-					{errors.duration && <p className='form__error'>{errors.duration}</p>}
+					{errors.duration && touched.duration && (
+						<p className='form__error'>{errors.duration}</p>
+					)}
 					<p className='course__duration'>
 						Duration: {calculateDuration(data.duration)} hours
 					</p>

@@ -15,6 +15,7 @@ const Input = (props) => {
 				minLength={props.minLength}
 				required={props.required}
 				value={props.value}
+				onBlur={props.handleBlur}
 			/>
 		</label>
 	);

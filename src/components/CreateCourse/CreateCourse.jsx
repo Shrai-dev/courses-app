@@ -68,13 +68,9 @@ const CreateCourse = (props) => {
 	};
 
 	const createCourse = () => {
-		if (!course.title || !course.description || !course.duration) {
-			alert('Please, fill in all fields');
-		} else {
-			course.authors = courseAuthorsList.map((elem) => elem.id);
-			mockedCoursesList.push(course);
-			props.handleClick();
-		}
+		course.authors = courseAuthorsList.map((elem) => elem.id);
+		mockedCoursesList.push(course);
+		props.handleClick();
 	};
 
 	const courseAuthorList = courseAuthorsList.map((elem) => {

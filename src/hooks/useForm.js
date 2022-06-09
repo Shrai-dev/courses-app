@@ -13,36 +13,59 @@ const useForm = (options) => {
 		});
 	};
 
-	const handleBlur = (key) => (event) => {
+	const handleBlur = () => (event) => {
 		const { name } = event.target;
 		setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
 		const validations = options?.validations;
 		if (validations) {
 			let valid = true;
 			const newErrors = {};
-			const value = data[key];
-			const validation = validations[key];
-			if (validation?.required?.value && !value) {
-				valid = false;
-				newErrors[key] = validation?.required?.message;
+			for (const key in validations) {
+				const value = data[key];
+				const validation = validations[key];
+				if (validation?.required?.value && !value) {
+					valid = false;
+					newErrors[key] = validation?.required?.message;
+				}
+				const custom = validation?.custom;
+				if (custom?.isValid && !custom.isValid(value)) {
+					valid = false;
+					newErrors[key] = custom.message;
+				}
 			}
-
-			const custom = validation?.custom;
-			if (custom?.isValid && !custom.isValid(value)) {
-				valid = false;
-				newErrors[key] = custom.message;
-			}
-
 			if (!valid) {
 				setErrors(newErrors);
 				return;
 			}
 		}
-		setErrors({});
 	};
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+
+		const validations = options?.validations;
+		if (validations) {
+			let valid = true;
+			const newErrors = {};
+			for (const key in validations) {
+				const value = data[key];
+				const validation = validations[key];
+				if (validation?.required?.value && !value) {
+					valid = false;
+					newErrors[key] = validation?.required?.message;
+				}
+				const custom = validation?.custom;
+				if (custom?.isValid && !custom.isValid(value)) {
+					valid = false;
+					newErrors[key] = custom.message;
+				}
+			}
+			if (!valid) {
+				setErrors(newErrors);
+				alert('Please, fill in all fields');
+				return;
+			}
+		}
 
 		setErrors({});
 

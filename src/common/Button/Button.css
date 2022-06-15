@@ -1,7 +1,7 @@
 button {
 	height: 35px;
 	border-radius: 5px;
-	font-size: 15px;
+	font-size: 16px;
 	cursor: pointer;
 }
 
@@ -9,7 +9,7 @@ button:hover {
 	transform: scale(1.05);
 }
 
-.login {
+.login-btn {
 	width: 110px;
 	background-color: #ffd7c7;
 	border: 1px solid #f3a18c;
@@ -62,4 +62,14 @@ button:hover {
 	width: 180px;
 	background-color: #ffc7c7;
 	border: 1px solid #f38c8c;
+}
+
+.register-user,
+.login-user {
+	width: 180px;
+	margin-top: 30px;
+	background-color: #d2ffc7;
+	border: 1px solid #98f38c;
+	align-self: center;
+	font-size: 18px;
 }

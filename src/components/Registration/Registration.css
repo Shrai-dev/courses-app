@@ -1,0 +1,29 @@
+.registration {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: calc(100vh - 90px);
+}
+
+.registration__title {
+	margin-bottom: 20px;
+	font-size: 30px;
+	color: #2c2c2c;
+}
+
+.registration__form {
+	display: flex;
+	flex-direction: column;
+}
+
+.registration__link {
+	display: flex;
+	justify-content: center;
+	text-decoration: none;
+	color: #2c2c2c;
+}
+
+.registration__disclaimer {
+	margin-top: 20px;
+}

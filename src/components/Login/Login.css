@@ -1,0 +1,26 @@
+.login {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: calc(100vh - 90px);
+}
+
+.login__title {
+	margin-bottom: 20px;
+	font-size: 30px;
+	color: #2c2c2c;
+}
+
+.login__form {
+	display: flex;
+	flex-direction: column;
+}
+
+.login__disclaimer {
+	margin-top: 20px;
+}
+
+.error {
+	color: #ff0000;
+}

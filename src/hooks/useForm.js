@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const useForm = (options) => {
 	const [data, setData] = useState(options?.initialValues || {});
 	const [errors, setErrors] = useState({});
 	const [touched, setTouched] = useState({});
+
+	useEffect(() => {
+		setErrors('');
+	}, [data.title, data.description, data.duration]);
 
 	const handleChange = (key) => (event) => {
 		const value = event.target.value;
@@ -37,6 +41,7 @@ const useForm = (options) => {
 				setErrors(newErrors);
 				return;
 			}
+			setErrors({});
 		}
 	};
 

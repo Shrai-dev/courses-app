@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import useForm from '../../hooks/useForm';
@@ -8,7 +9,7 @@ import { validationRules } from '../../helpers/validationRules';
 import { mockedCoursesList, mockedAuthorsList } from '../../constants';
 import { v4 as uuidv4 } from 'uuid';
 
-const CreateCourse = (props) => {
+const CreateCourse = () => {
 	const { handleSubmit, handleChange, handleBlur, data, errors, touched } =
 		useForm({
 			validations: validationRules,
@@ -30,6 +31,8 @@ const CreateCourse = (props) => {
 		duration: data.duration,
 		authors: [],
 	};
+
+	const navigate = useNavigate();
 
 	const createAuthor = () => {
 		if (newCourseAuthor.name.length < 2) {
@@ -70,7 +73,7 @@ const CreateCourse = (props) => {
 	const createCourse = () => {
 		course.authors = courseAuthorsList.map((elem) => elem.id);
 		mockedCoursesList.push(course);
-		props.handleClick();
+		navigate('/courses');
 	};
 
 	const courseAuthorList = courseAuthorsList.map((elem) => {

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import './Courses.css';
 import '../../common/Button/Button.css';
-import getAuthorName from '../../helpers/getAuthorName';
 import CourseCard from './components/CourseCard/CourseCard.jsx';
 import { mockedCoursesList } from '../../constants';
 import SearchBar from './components/SearchBar/SearchBar';
 import Button from '../../common/Button/Button';
+import { Link } from 'react-router-dom';
 
-const Courses = (props) => {
+const Courses = () => {
 	const [courses, setCourses] = useState(mockedCoursesList);
 	const [searchValue, setSearchValue] = useState('');
 
@@ -32,16 +32,7 @@ const Courses = (props) => {
 	};
 
 	const coursesElements = courses.map((course) => {
-		return (
-			<CourseCard
-				key={course.id}
-				title={course.title}
-				description={course.description}
-				author={getAuthorName(course.authors)}
-				duration={course.duration}
-				creationDate={course.creationDate}
-			/>
-		);
+		return <CourseCard key={course.id} course={course} />;
 	});
 
 	return (
@@ -51,11 +42,9 @@ const Courses = (props) => {
 					doSearch={() => handleSearch(searchValue)}
 					handleInput={getSearchValue}
 				/>
-				<Button
-					className='newCourse'
-					buttonText='Add new course'
-					handleClick={props.handleClick}
-				/>
+				<Link to='/courses/add'>
+					<Button className='newCourse' buttonText='Add new course' />
+				</Link>
 			</div>
 			{coursesElements}
 		</div>

@@ -24,11 +24,9 @@ const Registration = () => {
 	const registerUser = async (e) => {
 		e.preventDefault();
 		try {
-			axios.post(REGISTER_URL, JSON.stringify(newUser), {
+			axios.post(REGISTER_URL, newUser, {
 				headers: {
 					'Content-Type': 'application/json',
-					withCredentials: true,
-					accept: '*/*',
 				},
 			});
 			setSuccess(true);
@@ -98,7 +96,7 @@ const Registration = () => {
 						/>
 					</form>
 					<p className='registration__disclaimer'>
-						If you have an account you can <Link to='/'>login</Link>
+						If you have an account you can <Link to='/login'>login</Link>
 					</p>
 				</section>
 			)}

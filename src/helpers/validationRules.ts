@@ -11,7 +11,7 @@ export const validationRules = {
 			message: 'This field is required',
 		},
 		custom: {
-			isValid: (value) => {
+			isValid: (value: string) => {
 				if (!value) return false;
 				return value.length < 2 ? false : true;
 			},
@@ -20,7 +20,7 @@ export const validationRules = {
 	},
 	duration: {
 		custom: {
-			isValid: (value) => parseInt(value, 10) > 0,
+			isValid: (value: string) => parseInt(value, 10) > 0,
 			message: 'The duration needs to be more than 0',
 		},
 	},

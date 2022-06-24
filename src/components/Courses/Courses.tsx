@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import './Courses.css';
 import '../../common/Button/Button.css';
-import CourseCard from './components/CourseCard/CourseCard.jsx';
+import CourseCard from './components/CourseCard/CourseCard';
 import { mockedCoursesList } from '../../constants';
 import SearchBar from './components/SearchBar/SearchBar';
 import Button from '../../common/Button/Button';
 import { Link } from 'react-router-dom';
+import getAuthorName from '../../helpers/getAuthorName';
 
-const Courses = () => {
+const Courses: FC = () => {
 	const [courses, setCourses] = useState(mockedCoursesList);
 	const [searchValue, setSearchValue] = useState('');
 
-	const getSearchValue = (event) => {
+	const getSearchValue = (event: ChangeEvent<HTMLInputElement>) => {
 		event.preventDefault();
 		if (event.target.value === '') {
 			setCourses(mockedCoursesList);
@@ -20,7 +21,7 @@ const Courses = () => {
 		setSearchValue(dataLowerCase);
 	};
 
-	const handleSearch = (searchTerm) => {
+	const handleSearch = (searchTerm: string) => {
 		const searchString = new RegExp(searchTerm, 'ig');
 		const filteredList = mockedCoursesList.filter((item) => {
 			if (searchTerm === '') {
@@ -32,7 +33,17 @@ const Courses = () => {
 	};
 
 	const coursesElements = courses.map((course) => {
-		return <CourseCard key={course.id} course={course} />;
+		return (
+			<CourseCard
+				key={course.id}
+				id={course.id}
+				title={course.title}
+				description={course.description}
+				authors={getAuthorName(course.authors)}
+				duration={course.duration}
+				creationDate={course.creationDate}
+			/>
+		);
 	});
 
 	return (

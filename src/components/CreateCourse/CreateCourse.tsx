@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
@@ -9,7 +9,16 @@ import { validationRules } from '../../helpers/validationRules';
 import { mockedCoursesList, mockedAuthorsList } from '../../constants';
 import { v4 as uuidv4 } from 'uuid';
 
-const CreateCourse = () => {
+export interface ICourse {
+	id: string;
+	title: string;
+	description: string;
+	authors: string;
+	duration: number;
+	creationDate: string;
+}
+
+const CreateCourse: FC = () => {
 	const { handleSubmit, handleChange, handleBlur, data, errors, touched } =
 		useForm({
 			validations: validationRules,
@@ -21,7 +30,7 @@ const CreateCourse = () => {
 		name: '',
 	});
 	const [authors, setAuthors] = useState([...mockedAuthorsList]);
-	const [courseAuthorsList, setCourseAuthorsList] = useState([]);
+	const [courseAuthorsList, setCourseAuthorsList] = useState([{}]);
 
 	const course = {
 		id: uuidv4(),
@@ -43,12 +52,12 @@ const CreateCourse = () => {
 		}
 	};
 
-	const findAuthorName = (id) => {
+	const findAuthorName = (id: string) => {
 		const author = mockedAuthorsList.filter((elem) => elem.id === id);
 		return author[0].name;
 	};
 
-	const addAuthor = (id) => {
+	const addAuthor = (id: string) => {
 		setCourseAuthorsList((prev) => [
 			...prev,
 			{
@@ -59,7 +68,7 @@ const CreateCourse = () => {
 		setAuthors(authors.filter((a) => a.id !== id));
 	};
 
-	const deleteAuthor = (id) => {
+	const deleteAuthor = (id: string) => {
 		setAuthors((prev) => [
 			...prev,
 			{
@@ -123,7 +132,7 @@ const CreateCourse = () => {
 						required={true}
 						value={data.title || ''}
 						htmlFor='title'
-						handleBlur={handleBlur('title')}
+						handleBlur={handleBlur}
 					/>
 					{errors.title && touched.title && (
 						<p className='form__error'>{errors.title}</p>
@@ -143,13 +152,11 @@ const CreateCourse = () => {
 					name='description'
 					id='description'
 					placeholder='Enter description'
-					cols='30'
-					rows='8'
-					minLength='2'
+					minLength={2}
 					required
 					value={data.description}
 					onChange={handleChange('description')}
-					onBlur={handleBlur('description')}
+					onBlur={handleBlur}
 				></textarea>
 				{errors.description && touched.description && (
 					<p className='form__error'>{errors.description}</p>
@@ -165,18 +172,18 @@ const CreateCourse = () => {
 						name='author'
 						id='author'
 						placeholderText='Enter author name...'
-						handleChange={(event) =>
+						handleChange={(event: ChangeEvent<HTMLInputElement>) =>
 							setNewCourseAuthor((prev) => ({
 								...prev,
 								id: uuidv4(),
 								name: event.target.value,
 							}))
 						}
-						minLength='2'
+						minLength={2}
 						required={false}
 						value={newCourseAuthor.name}
 						htmlFor='author'
-						handleBlur={handleBlur('author')}
+						handleBlur={handleBlur}
 					/>
 					<Button
 						className='createAuthor'
@@ -196,7 +203,7 @@ const CreateCourse = () => {
 						required={true}
 						value={data.duration || ''}
 						htmlFor='duration'
-						handleBlur={handleBlur('duration')}
+						handleBlur={handleBlur}
 					/>
 					{errors.duration && touched.duration && (
 						<p className='form__error'>{errors.duration}</p>

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './SearchBar.css';
 import Button from '../../../../common/Button/Button';
 import Input from '../../../../common/Input/Input';
 
-const SearchBar = (props) => {
+const SearchBar: FC = (props) => {
 	return (
 		<form onSubmit={(e) => e.preventDefault()} className='search__wrapper'>
 			<Input

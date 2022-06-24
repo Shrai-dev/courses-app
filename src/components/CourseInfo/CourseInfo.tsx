@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './CourseInfo.css';
 import { Link, useParams } from 'react-router-dom';
 import getAuthorName from '../../helpers/getAuthorName';
 import { mockedCoursesList } from '../../constants';
-import formatDate from './../../helpers/formatDate';
+import formatDate from '../../helpers/formatDate';
 import calculateDuration from '../../helpers/calculateDuration';
 
-const CourseInfo = () => {
+const CourseInfo: FC = () => {
 	const params = useParams();
 	const courseData = mockedCoursesList.filter(
 		(elem) => elem.id === params.courseId
@@ -22,7 +22,7 @@ const CourseInfo = () => {
 
 				<div className='course__data-details'>
 					<p className='course__data-text'>
-						<strong>ID: </strong> {courseData.id}
+						<strong>ID: </strong> {params.id}
 					</p>
 					<p className='course__data-text'>
 						<strong>Duration: </strong>

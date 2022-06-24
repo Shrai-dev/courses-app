@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
@@ -7,7 +7,7 @@ import axios from '../../api/axios';
 
 const LOGIN_URL = '/login';
 
-const Login = () => {
+const Login: FC = () => {
 	const [password, setPassword] = useState('');
 	const [email, setEmail] = useState('');
 	const [errMsg, setErrMsg] = useState('');
@@ -17,7 +17,7 @@ const Login = () => {
 		setErrMsg('');
 	}, [email, password]);
 
-	const handleLogin = (e) => {
+	const handleLogin = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		axios
 			.post(
@@ -66,7 +66,9 @@ const Login = () => {
 							name='email'
 							id='email'
 							placeholderText='Enter email...'
-							handleChange={(event) => setEmail(event.target.value)}
+							handleChange={(event: ChangeEvent<HTMLInputElement>) =>
+								setEmail(event.target.value)
+							}
 							required={true}
 							value={email}
 							htmlFor='email'
@@ -78,7 +80,9 @@ const Login = () => {
 							name='password'
 							id='password'
 							placeholderText='Enter password...'
-							handleChange={(event) => setPassword(event.target.value)}
+							handleChange={(event: ChangeEvent<HTMLInputElement>) =>
+								setPassword(event.target.value)
+							}
 							required={true}
 							value={password}
 							htmlFor='password'

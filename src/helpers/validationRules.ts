@@ -1,4 +1,29 @@
-export const validationRules = {
+interface IValidationRules {
+	title: {
+		required: {
+			value: boolean;
+			message: string;
+		};
+	};
+	description: {
+		required: {
+			value: boolean;
+			message: string;
+		};
+		custom: {
+			isValid: (value: string) => boolean;
+			message: string;
+		};
+	};
+	duration: {
+		custom: {
+			isValid: (value: string) => boolean;
+			message: string;
+		};
+	};
+}
+
+export const validationRules: IValidationRules = {
 	title: {
 		required: {
 			value: true,

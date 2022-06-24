@@ -3,9 +3,6 @@ import './Header.css';
 import Logo from './components/Logo/Logo';
 import Button from '../../common/Button/Button';
 import { useNavigate } from 'react-router-dom';
-// import axios from '../../api/axios';
-
-// const LOGOUT_URL = '/logout';
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -15,22 +12,6 @@ const Header = () => {
 		localStorage.removeItem('token');
 		localStorage.removeItem('name');
 		navigate('/login');
-		// axios
-		// 	.delete(LOGOUT_URL, {
-		// 		headers: {
-		// 			'Content-Type': 'application/json',
-		// 			Authorization: `${localStorage.getItem('token')}`,
-		// 		},
-		// 	})
-		// 	.then(() => {
-		// 		localStorage.clear();
-		// 		localStorage.removeItem('token');
-		// 		localStorage.removeItem('name');
-		// 		navigate('/login');
-		// 	})
-		// 	.catch((error) => {
-		// 		alert(`${error.message}`);
-		// 	});
 	};
 
 	return (

@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
 import './Button.css';
 
-interface ButtonProps {
+interface IButtonProps {
 	className: string;
 	handleClick?: any;
 	type?: 'button' | 'submit';
 	buttonText: string;
 }
 
-const Button: FC<ButtonProps> = (props) => {
+const Button: FC<IButtonProps> = (props) => {
 	return (
 		<button
 			className={props.className}

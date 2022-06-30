@@ -13,9 +13,14 @@ export interface ICourse {
 	id: string;
 	title: string;
 	description: string;
-	authors: string;
+	authors: string[];
 	duration: number;
 	creationDate: string;
+}
+
+interface IAuthor {
+	id: string;
+	name: string;
 }
 
 const CreateCourse: FC = () => {
@@ -25,14 +30,14 @@ const CreateCourse: FC = () => {
 			onSubmit: () => createCourse(),
 		});
 
-	const [newCourseAuthor, setNewCourseAuthor] = useState({
+	const [newCourseAuthor, setNewCourseAuthor] = useState<IAuthor>({
 		id: '',
 		name: '',
 	});
-	const [authors, setAuthors] = useState([...mockedAuthorsList]);
-	const [courseAuthorsList, setCourseAuthorsList] = useState([{}]);
+	const [authors, setAuthors] = useState<IAuthor[]>([...mockedAuthorsList]);
+	const [courseAuthorsList, setCourseAuthorsList] = useState<IAuthor[]>([]);
 
-	const course = {
+	const course: ICourse = {
 		id: uuidv4(),
 		title: data.title,
 		description: data.description,
@@ -118,7 +123,7 @@ const CreateCourse: FC = () => {
 	});
 
 	return (
-		<form className='course__container'>
+		<form className='course__container' onSubmit={handleSubmit}>
 			<div className='course__inner'>
 				<div className='course__inner-title'>
 					<Input
@@ -132,7 +137,7 @@ const CreateCourse: FC = () => {
 						required={true}
 						value={data.title || ''}
 						htmlFor='title'
-						handleBlur={handleBlur}
+						handleBlur={handleBlur('title')}
 					/>
 					{errors.title && touched.title && (
 						<p className='form__error'>{errors.title}</p>
@@ -142,7 +147,6 @@ const CreateCourse: FC = () => {
 					className='createCourse'
 					buttonText='Create course'
 					type='submit'
-					handleClick={handleSubmit}
 				/>
 			</div>
 			<label className='course__description-label' htmlFor='description'>
@@ -156,7 +160,7 @@ const CreateCourse: FC = () => {
 					required
 					value={data.description}
 					onChange={handleChange('description')}
-					onBlur={handleBlur}
+					onBlur={handleBlur('description')}
 				></textarea>
 				{errors.description && touched.description && (
 					<p className='form__error'>{errors.description}</p>
@@ -203,7 +207,7 @@ const CreateCourse: FC = () => {
 						required={true}
 						value={data.duration || ''}
 						htmlFor='duration'
-						handleBlur={handleBlur}
+						handleBlur={handleBlur('duration')}
 					/>
 					{errors.duration && touched.duration && (
 						<p className='form__error'>{errors.duration}</p>

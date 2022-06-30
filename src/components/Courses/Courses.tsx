@@ -12,7 +12,7 @@ const Courses: FC = () => {
 	const [courses, setCourses] = useState(mockedCoursesList);
 	const [searchValue, setSearchValue] = useState('');
 
-	const getSearchValue = (event: ChangeEvent<HTMLInputElement>) => {
+	const getSearchValue = (event: ChangeEvent<HTMLInputElement>): void => {
 		event.preventDefault();
 		if (event.target.value === '') {
 			setCourses(mockedCoursesList);
@@ -21,7 +21,7 @@ const Courses: FC = () => {
 		setSearchValue(dataLowerCase);
 	};
 
-	const handleSearch = (searchTerm: string) => {
+	const handleSearch = (searchTerm: string): void => {
 		const searchString = new RegExp(searchTerm, 'ig');
 		const filteredList = mockedCoursesList.filter((item) => {
 			if (searchTerm === '') {

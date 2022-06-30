@@ -7,6 +7,12 @@ import { Link, Navigate } from 'react-router-dom';
 
 const REGISTER_URL = '/register';
 
+export interface IUser {
+	name?: string;
+	email: string;
+	password: string;
+}
+
 const Registration: FC = () => {
 	const [user, setUser] = useState('');
 	const [pwd, setPwd] = useState('');
@@ -15,7 +21,7 @@ const Registration: FC = () => {
 	const [errMsg, setErrMsg] = useState('');
 	const [success, setSuccess] = useState(false);
 
-	const newUser = {
+	const newUser: IUser = {
 		name: user,
 		password: pwd,
 		email: email,

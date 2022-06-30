@@ -7,7 +7,11 @@ import calculateDuration from '../../../../helpers/calculateDuration';
 import formatDate from '../../../../helpers/formatDate';
 import { ICourse } from '../../../CreateCourse/CreateCourse';
 
-const CourseCard: FC<ICourse> = (props) => {
+interface ICourseCard extends Omit<ICourse, 'authors'> {
+	authors: string;
+}
+
+const CourseCard: FC<ICourseCard> = (props) => {
 	const navigate = useNavigate();
 
 	const openCourse = (id: string) => {

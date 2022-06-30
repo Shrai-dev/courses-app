@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEvent, FormEvent } from 'react';
 import './Button.css';
 
 interface IButtonProps {
 	className: string;
-	handleClick?: any;
+	handleClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 	type?: 'button' | 'submit';
 	buttonText: string;
 }

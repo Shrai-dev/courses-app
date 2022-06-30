@@ -3,7 +3,12 @@ import './SearchBar.css';
 import Button from '../../../../common/Button/Button';
 import Input from '../../../../common/Input/Input';
 
-const SearchBar: FC = (props) => {
+interface IProps {
+	handleInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	doSearch: () => void;
+}
+
+const SearchBar: FC<IProps> = (props) => {
 	return (
 		<form onSubmit={(e) => e.preventDefault()} className='search__wrapper'>
 			<Input

@@ -4,6 +4,7 @@ import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import './Login.css';
 import axios from '../../api/axios';
+import { IUser } from './../Registration/Registration';
 
 const LOGIN_URL = '/login';
 
@@ -13,6 +14,11 @@ const Login: FC = () => {
 	const [errMsg, setErrMsg] = useState('');
 	const [success, setSuccess] = useState(false);
 
+	const user: IUser = {
+		email: email,
+		password: password,
+	};
+
 	useEffect(() => {
 		setErrMsg('');
 	}, [email, password]);
@@ -20,16 +26,12 @@ const Login: FC = () => {
 	const handleLogin = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		axios
-			.post(
-				LOGIN_URL,
-				{ email: email, password: password },
-				{
-					headers: {
-						'Content-Type': 'application/json',
-						withCredentials: true,
-					},
-				}
-			)
+			.post(LOGIN_URL, user, {
+				headers: {
+					'Content-Type': 'application/json',
+					withCredentials: true,
+				},
+			})
 			.then((response) => {
 				localStorage.setItem('token', response.data.result);
 				localStorage.setItem('name', response.data.user.name);

@@ -6,6 +6,7 @@ import Courses from './components/Courses/Courses';
 import CreateCourse from './components/CreateCourse/CreateCourse';
 import Header from './components/Header/Header';
 import Login from './components/Login/Login';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Registration from './components/Registration/Registration';
 
 const App: FC = () => {
@@ -13,17 +14,13 @@ const App: FC = () => {
 		<div className='wrapper'>
 			<Header />
 			<Routes>
-				{localStorage.getItem('token') && (
-					<Route path={'/' || '/courses'} element={<Courses />} />
-				)}
-				{!localStorage.getItem('token') && (
-					<Route path={'/' || '/login'} element={<Login />} />
-				)}
-				<Route path='/registration' element={<Registration />} />
-				<Route path='/courses' element={<Courses />} />
-				<Route path='/courses/:courseId' element={<CourseInfo />} />
-				<Route path='/courses/add' element={<CreateCourse />} />
+				<Route path='/' element={<PrivateRoute />}>
+					<Route path='courses' element={<Courses />} />
+					<Route path='courses/:courseId' element={<CourseInfo />} />
+					<Route path='courses/add' element={<CreateCourse />} />
+				</Route>
 				<Route path='/login' element={<Login />} />
+				<Route path='/registration' element={<Registration />} />
 			</Routes>
 		</div>
 	);

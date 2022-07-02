@@ -34,6 +34,11 @@ const useForm = (options: any) => {
 						valid = false;
 						newErrors[key] = validation?.required?.message;
 					}
+					const pattern = validation?.pattern;
+					if (pattern?.value && !RegExp(pattern.value).test(value)) {
+						valid = false;
+						newErrors[key] = pattern.message;
+					}
 					const custom = validation?.custom;
 					if (custom?.isValid && !custom.isValid(value)) {
 						valid = false;

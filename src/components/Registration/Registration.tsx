@@ -1,9 +1,11 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { FC, useState } from 'react';
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import './Registration.css';
-import axios from '../../api/axios';
 import { Link, Navigate } from 'react-router-dom';
+import axios from '../../api/axios';
+import useForm from './../../hooks/useForm';
+import { validationRulesAuthorization } from '../../helpers/validationRules';
 
 const REGISTER_URL = '/register';
 
@@ -14,21 +16,22 @@ export interface IUser {
 }
 
 const Registration: FC = () => {
-	const [user, setUser] = useState('');
-	const [pwd, setPwd] = useState('');
-	const [email, setEmail] = useState('');
+	const { handleSubmit, handleChange, handleBlur, data, errors, touched } =
+		useForm({
+			validations: validationRulesAuthorization,
+			onSubmit: () => registerUser(),
+		});
 
 	const [errMsg, setErrMsg] = useState('');
 	const [success, setSuccess] = useState(false);
 
 	const newUser: IUser = {
-		name: user,
-		password: pwd,
-		email: email,
+		name: data.name,
+		email: data.email,
+		password: data.password,
 	};
 
-	const registerUser = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const registerUser = () => {
 		axios
 			.post(REGISTER_URL, newUser, {
 				headers: {
@@ -37,9 +40,6 @@ const Registration: FC = () => {
 			})
 			.then(() => {
 				setSuccess(true);
-				setUser('');
-				setPwd('');
-				setEmail('');
 			})
 			.catch((error) => {
 				setSuccess(false);
@@ -59,9 +59,9 @@ const Registration: FC = () => {
 				<Navigate to='/login' />
 			) : (
 				<section className='registration'>
-					<p>{errMsg}</p>
+					<p className='form__error'>{errMsg}</p>
 					<h1 className='registration__title'>Registration</h1>
-					<form className='registration__form' onSubmit={registerUser}>
+					<form className='registration__form' onSubmit={handleSubmit}>
 						<Input
 							className='registration-input'
 							labelText='Name'
@@ -69,13 +69,15 @@ const Registration: FC = () => {
 							name='name'
 							id='name'
 							placeholderText='Enter name...'
-							handleChange={(event: ChangeEvent<HTMLInputElement>) =>
-								setUser(event.target.value)
-							}
+							handleChange={handleChange('name')}
+							handleBlur={handleBlur('name')}
 							required={true}
-							value={user}
+							value={data.name || ''}
 							htmlFor='name'
 						/>
+						{errors.name && touched.name && (
+							<p className='form__error'>{errors.name}</p>
+						)}
 						<Input
 							className='registration-input'
 							labelText='Email'
@@ -83,13 +85,15 @@ const Registration: FC = () => {
 							name='email'
 							id='email'
 							placeholderText='Enter email...'
-							handleChange={(event: ChangeEvent<HTMLInputElement>) =>
-								setEmail(event.target.value)
-							}
+							handleChange={handleChange('email')}
+							handleBlur={handleBlur('email')}
 							required={true}
-							value={email}
+							value={data.email || ''}
 							htmlFor='email'
 						/>
+						{errors.email && touched.email && (
+							<p className='form__error'>{errors.email}</p>
+						)}
 						<Input
 							className='registration-input'
 							labelText='Password'
@@ -97,13 +101,15 @@ const Registration: FC = () => {
 							name='password'
 							id='password'
 							placeholderText='Enter password...'
-							handleChange={(event: ChangeEvent<HTMLInputElement>) =>
-								setPwd(event.target.value)
-							}
+							handleChange={handleChange('password')}
+							handleBlur={handleBlur('password')}
 							required={true}
-							value={pwd}
+							value={data.password || ''}
 							htmlFor='password'
 						/>
+						{errors.password && touched.password && (
+							<p className='form__error'>{errors.password}</p>
+						)}
 						<Button
 							className='register-user'
 							buttonText='Registration'

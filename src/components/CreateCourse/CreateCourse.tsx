@@ -5,7 +5,7 @@ import Input from '../../common/Input/Input';
 import useForm from '../../hooks/useForm';
 import './CreateCourse.css';
 import calculateDuration from '../../helpers/calculateDuration';
-import { validationRules } from '../../helpers/validationRules';
+import { validationRulesCourse } from '../../helpers/validationRules';
 import { mockedCoursesList, mockedAuthorsList } from '../../constants';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -26,7 +26,7 @@ interface IAuthor {
 const CreateCourse: FC = () => {
 	const { handleSubmit, handleChange, handleBlur, data, errors, touched } =
 		useForm({
-			validations: validationRules,
+			validations: validationRulesCourse,
 			onSubmit: () => createCourse(),
 		});
 

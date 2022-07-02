@@ -1,30 +1,30 @@
-import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import './Login.css';
 import axios from '../../api/axios';
 import { IUser } from './../Registration/Registration';
+import useForm from './../../hooks/useForm';
+import { validationRulesAuthorization } from '../../helpers/validationRules';
 
 const LOGIN_URL = '/login';
 
 const Login: FC = () => {
-	const [password, setPassword] = useState('');
-	const [email, setEmail] = useState('');
+	const { handleSubmit, handleChange, handleBlur, data, errors, touched } =
+		useForm({
+			validations: validationRulesAuthorization,
+			onSubmit: () => handleLogin(),
+		});
 	const [errMsg, setErrMsg] = useState('');
 	const [success, setSuccess] = useState(false);
 
 	const user: IUser = {
-		email: email,
-		password: password,
+		email: data.email,
+		password: data.password,
 	};
 
-	useEffect(() => {
-		setErrMsg('');
-	}, [email, password]);
-
-	const handleLogin = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleLogin = () => {
 		axios
 			.post(LOGIN_URL, user, {
 				headers: {
@@ -36,8 +36,6 @@ const Login: FC = () => {
 				localStorage.setItem('token', response.data.result);
 				localStorage.setItem('name', response.data.user.name);
 				setSuccess(true);
-				setPassword('');
-				setEmail('');
 			})
 			.catch((error) => {
 				setSuccess(false);
@@ -60,7 +58,7 @@ const Login: FC = () => {
 				<section className='login'>
 					<h1 className='login__title'>Login</h1>
 					<p className='error'>{errMsg}</p>
-					<form className='login__form' onSubmit={handleLogin}>
+					<form className='login__form' onSubmit={handleSubmit}>
 						<Input
 							className='login-input'
 							labelText='Email'
@@ -68,13 +66,15 @@ const Login: FC = () => {
 							name='email'
 							id='email'
 							placeholderText='Enter email...'
-							handleChange={(event: ChangeEvent<HTMLInputElement>) =>
-								setEmail(event.target.value)
-							}
+							handleChange={handleChange('email')}
+							handleBlur={handleBlur('email')}
 							required={true}
-							value={email}
+							value={data.email || ''}
 							htmlFor='email'
 						/>
+						{errors.email && touched.email && (
+							<p className='form__error'>{errors.email}</p>
+						)}
 						<Input
 							className='login-input'
 							labelText='Password'
@@ -82,13 +82,15 @@ const Login: FC = () => {
 							name='password'
 							id='password'
 							placeholderText='Enter password...'
-							handleChange={(event: ChangeEvent<HTMLInputElement>) =>
-								setPassword(event.target.value)
-							}
+							handleChange={handleChange('password')}
+							handleBlur={handleBlur('password')}
 							required={true}
-							value={password}
+							value={data.password || ''}
 							htmlFor='password'
 						/>
+						{errors.password && touched.password && (
+							<p className='form__error'>{errors.password}</p>
+						)}
 						<Button className='login-user' buttonText='Login' type='submit' />
 					</form>
 					<p className='login__disclaimer'>

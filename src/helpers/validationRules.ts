@@ -1,35 +1,17 @@
-interface IValidationRules {
-	title?: {
+interface IValidationRulesCourse {
+	title: {
 		custom: {
 			isValid: (value: string) => boolean;
 			message: string;
 		};
 	};
-	description?: {
+	description: {
 		custom: {
 			isValid: (value: string) => boolean;
 			message: string;
 		};
 	};
-	duration?: {
-		custom: {
-			isValid: (value: string) => boolean;
-			message: string;
-		};
-	};
-	name?: {
-		custom: {
-			isValid: (value: string) => boolean;
-			message: string;
-		};
-	};
-	email?: {
-		pattern: {
-			value: string;
-			message: string;
-		};
-	};
-	password?: {
+	duration: {
 		custom: {
 			isValid: (value: string) => boolean;
 			message: string;
@@ -37,7 +19,28 @@ interface IValidationRules {
 	};
 }
 
-export const validationRulesCourse: IValidationRules = {
+interface IValidationRulesAuthorization {
+	name?: {
+		custom: {
+			isValid: (value: string) => boolean;
+			message: string;
+		};
+	};
+	email: {
+		pattern: {
+			value: string;
+			message: string;
+		};
+	};
+	password: {
+		custom: {
+			isValid: (value: string) => boolean;
+			message: string;
+		};
+	};
+}
+
+export const validationRulesCourse: IValidationRulesCourse = {
 	title: {
 		custom: {
 			isValid: (value: string) => {
@@ -64,7 +67,7 @@ export const validationRulesCourse: IValidationRules = {
 	},
 };
 
-export const validationRulesAuthorization: IValidationRules = {
+export const validationRulesAuthorization: IValidationRulesAuthorization = {
 	name: {
 		custom: {
 			isValid: (value: string) => {

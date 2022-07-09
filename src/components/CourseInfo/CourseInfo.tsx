@@ -5,10 +5,11 @@ import getAuthorName from '../../helpers/getAuthorName';
 import { mockedCoursesList } from '../../constants';
 import formatDate from '../../helpers/formatDate';
 import calculateDuration from '../../helpers/calculateDuration';
+import { ICourse } from '../CreateCourse/CreateCourse';
 
 const CourseInfo: FC = () => {
 	const params = useParams();
-	const courseData = mockedCoursesList.filter(
+	const courseData: ICourse = mockedCoursesList.filter(
 		(elem) => elem.id === params.courseId
 	)[0];
 	return (
@@ -22,7 +23,7 @@ const CourseInfo: FC = () => {
 
 				<div className='course__data-details'>
 					<p className='course__data-text'>
-						<strong>ID: </strong> {params.id}
+						<strong>ID: </strong> {params.courseId}
 					</p>
 					<p className='course__data-text'>
 						<strong>Duration: </strong>

@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, FormEvent } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import './Button.css';
 
 interface IButtonProps {

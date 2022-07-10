@@ -6,8 +6,8 @@ import { Link, Navigate } from 'react-router-dom';
 import axios from '../../api/axios';
 import useForm from './../../hooks/useForm';
 import { validationRulesAuthorization } from '../../helpers/validationRules';
-
-const REGISTER_URL = '/register';
+import { REGISTER_URL } from '../../constants';
+import { handleErrorsRegistration } from './../../helpers/handleErrorsAuthorization';
 
 export interface IUser {
 	name?: string;
@@ -22,8 +22,8 @@ const Registration: FC = () => {
 			onSubmit: () => registerUser(),
 		});
 
-	const [errMsg, setErrMsg] = useState('');
-	const [success, setSuccess] = useState(false);
+	const [errMsg, setErrMsg] = useState<string>('');
+	const [success, setSuccess] = useState<boolean>(false);
 
 	const newUser: IUser = {
 		name: data.name,
@@ -43,13 +43,7 @@ const Registration: FC = () => {
 			})
 			.catch((error) => {
 				setSuccess(false);
-				if (!error?.response) {
-					setErrMsg('No Server Response');
-				} else if (error.response?.status === 409) {
-					setErrMsg('Username Taken');
-				} else {
-					setErrMsg('Registration Failed');
-				}
+				setErrMsg(handleErrorsRegistration(error));
 			});
 	};
 

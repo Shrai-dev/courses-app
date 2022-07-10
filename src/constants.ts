@@ -40,3 +40,6 @@ export const mockedAuthorsList = [
 		name: 'Valentina Larina',
 	},
 ];
+
+export const LOGIN_URL = '/login';
+export const REGISTER_URL = '/register';

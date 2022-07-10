@@ -7,8 +7,8 @@ import axios from '../../api/axios';
 import { IUser } from './../Registration/Registration';
 import useForm from './../../hooks/useForm';
 import { validationRulesAuthorization } from '../../helpers/validationRules';
-
-const LOGIN_URL = '/login';
+import { LOGIN_URL } from '../../constants';
+import { handleErrorsLogin } from '../../helpers/handleErrorsAuthorization';
 
 const Login: FC = () => {
 	const { handleSubmit, handleChange, handleBlur, data, errors, touched } =
@@ -16,8 +16,8 @@ const Login: FC = () => {
 			validations: validationRulesAuthorization,
 			onSubmit: () => handleLogin(),
 		});
-	const [errMsg, setErrMsg] = useState('');
-	const [success, setSuccess] = useState(false);
+	const [errMsg, setErrMsg] = useState<string>('');
+	const [success, setSuccess] = useState<boolean>(false);
 
 	const user: IUser = {
 		email: data.email,
@@ -39,15 +39,7 @@ const Login: FC = () => {
 			})
 			.catch((error) => {
 				setSuccess(false);
-				if (!error?.response) {
-					setErrMsg('No Server Response');
-				} else if (error.response?.status === 400) {
-					setErrMsg('Missing Email or Password');
-				} else if (error.response?.status === 401) {
-					setErrMsg('Unauthorized');
-				} else {
-					setErrMsg('Login Failed');
-				}
+				setErrMsg(handleErrorsLogin(error));
 			});
 	};
 	return (

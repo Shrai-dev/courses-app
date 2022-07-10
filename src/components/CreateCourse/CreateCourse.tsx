@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
@@ -57,28 +57,23 @@ const CreateCourse: FC = () => {
 		}
 	};
 
-	const findAuthorName = (id: string) => {
-		const author = mockedAuthorsList.filter((elem) => elem.id === id);
-		return author[0].name;
-	};
-
-	const addAuthor = (id: string) => {
-		setCourseAuthorsList((prev) => [
+	const addAuthor = (id: string, name: string) => {
+		setCourseAuthorsList((prev: IAuthor[]) => [
 			...prev,
 			{
-				id: id,
-				name: findAuthorName(id),
+				id,
+				name,
 			},
 		]);
 		setAuthors(authors.filter((a) => a.id !== id));
 	};
 
-	const deleteAuthor = (id: string) => {
-		setAuthors((prev) => [
+	const deleteAuthor = (id: string, name: string) => {
+		setAuthors((prev: IAuthor[]) => [
 			...prev,
 			{
-				id: id,
-				name: findAuthorName(id),
+				id,
+				name,
 			},
 		]);
 		setCourseAuthorsList(courseAuthorsList.filter((a) => a.id !== id));
@@ -100,7 +95,7 @@ const CreateCourse: FC = () => {
 					className='deleteAuthor'
 					buttonText='Delete author'
 					type='button'
-					handleClick={() => deleteAuthor(elem.id)}
+					handleClick={() => deleteAuthor(elem.id, elem.name)}
 				/>
 			</div>
 		);
@@ -116,7 +111,7 @@ const CreateCourse: FC = () => {
 					className='addAuthor'
 					buttonText='Add author'
 					type='button'
-					handleClick={() => addAuthor(elem.id)}
+					handleClick={() => addAuthor(elem.id, elem.name)}
 				/>
 			</div>
 		);

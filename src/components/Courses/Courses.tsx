@@ -7,10 +7,11 @@ import SearchBar from './components/SearchBar/SearchBar';
 import Button from '../../common/Button/Button';
 import { Link } from 'react-router-dom';
 import getAuthorName from '../../helpers/getAuthorName';
+import { ICourse } from '../CreateCourse/CreateCourse';
 
 const Courses: FC = () => {
-	const [courses, setCourses] = useState(mockedCoursesList);
-	const [searchValue, setSearchValue] = useState('');
+	const [courses, setCourses] = useState<ICourse[]>(mockedCoursesList);
+	const [searchValue, setSearchValue] = useState<string>('');
 
 	const getSearchValue = (event: ChangeEvent<HTMLInputElement>): void => {
 		event.preventDefault();

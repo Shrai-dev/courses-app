@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
 const useAuth = (): boolean => {
-	return localStorage.getItem('name') ? true : false;
+	return localStorage.getItem('token') ? true : false;
 };
 
 const PrivateRoute: FC = () => {

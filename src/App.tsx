@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import CourseInfo from './components/CourseInfo/CourseInfo';
@@ -15,10 +15,13 @@ const App: FC = () => {
 			<Header />
 			<Routes>
 				<Route path='/' element={<PrivateRoute />}>
-					<Route path='courses' element={<Courses />} />
-					<Route path='courses/:courseId' element={<CourseInfo />} />
-					<Route path='courses/add' element={<CreateCourse />} />
+					<Route path='/' element={<Courses />}>
+						<Route path='courses' element={<Courses />} />
+						<Route path='courses/:courseId' element={<CourseInfo />} />
+						<Route path='courses/add' element={<CreateCourse />} />
+					</Route>
 				</Route>
+
 				<Route path='/login' element={<Login />} />
 				<Route path='/registration' element={<Registration />} />
 			</Routes>

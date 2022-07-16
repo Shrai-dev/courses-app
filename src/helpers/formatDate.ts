@@ -1,4 +1,4 @@
-const formatDate = (date) => {
+const formatDate = (date: string): string => {
 	let [month, day, year] = date.split('/');
 	if (day.length === 1) {
 		day = `0${day}`;

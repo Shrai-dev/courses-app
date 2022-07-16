@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './Input.css';
 
-const Input = (props) => {
+export interface IInputProps {
+	id: string;
+	htmlFor: string;
+	labelText?: string;
+	className: string;
+	handleChange?: any;
+	handleBlur?: any;
+	type: 'text' | 'number' | 'password' | 'email';
+	name: string;
+	placeholderText: string;
+	minLength?: number;
+	required?: boolean;
+	value?: string | number;
+}
+
+const Input: FC<IInputProps> = (props) => {
 	return (
 		<label htmlFor={props.id}>
 			{props.labelText}

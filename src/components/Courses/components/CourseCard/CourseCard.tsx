@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../../../common/Button/Button';
 import '../../../../common/Button/Button.css';
 import './CourseCard.css';
 import calculateDuration from '../../../../helpers/calculateDuration';
 import formatDate from '../../../../helpers/formatDate';
+import { ICourse } from '../../../CreateCourse/CreateCourse';
 
-const CourseCard = (props) => {
+interface ICourseCard extends Omit<ICourse, 'authors'> {
+	authors: string;
+}
+
+const CourseCard: FC<ICourseCard> = (props) => {
+	const navigate = useNavigate();
+
+	const openCourse = (id: string) => {
+		navigate(`/courses/${id}`);
+	};
+
 	return (
 		<div className='card__container'>
 			<div className='card__content'>
@@ -14,7 +26,7 @@ const CourseCard = (props) => {
 			</div>
 			<div className='card__details'>
 				<p className='card__info card__author'>
-					<strong>Authors: </strong> {props.author}
+					<strong>Authors: </strong> {props.authors}
 				</p>
 				<p className='card__info'>
 					<strong>Duration: </strong>
@@ -24,7 +36,12 @@ const CourseCard = (props) => {
 					<strong>Created: </strong>
 					{formatDate(props.creationDate)}
 				</p>
-				<Button className='showCourse' buttonText='Show course' type='button' />
+				<Button
+					handleClick={() => openCourse(props.id)}
+					className='showCourse'
+					buttonText='Show course'
+					type='button'
+				/>
 			</div>
 		</div>
 	);

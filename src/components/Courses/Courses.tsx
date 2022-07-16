@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import './Courses.css';
 import '../../common/Button/Button.css';
-import getAuthorName from '../../helpers/getAuthorName';
-import CourseCard from './components/CourseCard/CourseCard.jsx';
+import CourseCard from './components/CourseCard/CourseCard';
 import { mockedCoursesList } from '../../constants';
 import SearchBar from './components/SearchBar/SearchBar';
 import Button from '../../common/Button/Button';
+import { Link } from 'react-router-dom';
+import getAuthorName from '../../helpers/getAuthorName';
+import { ICourse } from '../CreateCourse/CreateCourse';
 
-const Courses = (props) => {
-	const [courses, setCourses] = useState(mockedCoursesList);
-	const [searchValue, setSearchValue] = useState('');
+const Courses: FC = () => {
+	const [courses, setCourses] = useState<ICourse[]>(mockedCoursesList);
+	const [searchValue, setSearchValue] = useState<string>('');
 
-	const getSearchValue = (event) => {
+	const getSearchValue = (event: ChangeEvent<HTMLInputElement>): void => {
 		event.preventDefault();
 		if (event.target.value === '') {
 			setCourses(mockedCoursesList);
@@ -20,7 +22,7 @@ const Courses = (props) => {
 		setSearchValue(dataLowerCase);
 	};
 
-	const handleSearch = (searchTerm) => {
+	const handleSearch = (searchTerm: string): void => {
 		const searchString = new RegExp(searchTerm, 'ig');
 		const filteredList = mockedCoursesList.filter((item) => {
 			if (searchTerm === '') {
@@ -35,9 +37,10 @@ const Courses = (props) => {
 		return (
 			<CourseCard
 				key={course.id}
+				id={course.id}
 				title={course.title}
 				description={course.description}
-				author={getAuthorName(course.authors)}
+				authors={getAuthorName(course.authors)}
 				duration={course.duration}
 				creationDate={course.creationDate}
 			/>
@@ -51,11 +54,9 @@ const Courses = (props) => {
 					doSearch={() => handleSearch(searchValue)}
 					handleInput={getSearchValue}
 				/>
-				<Button
-					className='newCourse'
-					buttonText='Add new course'
-					handleClick={props.handleClick}
-				/>
+				<Link to='/courses/add'>
+					<Button className='newCourse' buttonText='Add new course' />
+				</Link>
 			</div>
 			{coursesElements}
 		</div>

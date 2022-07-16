@@ -1,5 +1,5 @@
 import { mockedAuthorsList } from '../constants';
-const getAuthorName = (array) => {
+const getAuthorName = (array: string[]): string => {
 	let authorsArr = [];
 	for (let i = 0; i < mockedAuthorsList.length; i++) {
 		for (let j = 0; j < array.length; j++) {
